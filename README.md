@@ -28,6 +28,6 @@ a strong key.
 
 ## Adjusting the encryption
 
-You can learn morea bout utilizing PHP's mcrypt library, as well as the different options you can utilize to encrypt your code here : http://php.net/manual/en/book.mcrypt.php
+You can learn more about utilizing PHP's mcrypt library, as well as the different options you can utilize to encrypt your code here : http://php.net/manual/en/book.mcrypt.php
 
 
