@@ -34,7 +34,7 @@ $code_enc = encrypt($key, $code_file);
 
 if (!empty($_POST['dec'])) {
 	// Regardless of what the POST was, set it to the cookie. If it isn't the right key, it wont decrypt anyways :)
-        setcookie("dec", $_POST['dec'], time()+3600);
+        setcookie("dec", $_POST['dec'], time() + 3600);
         $_COOKIE['dec'] = $_POST['dec'];
         header("Refresh:0");
 }
