@@ -4,7 +4,7 @@ A quick and simple way to protect your PHP code with the mcrypt library using MC
 
 ## Description
 
-This code uses the mcrypt library to encrpyt raw PHP code (wihtout "<?php ?>").
+This code uses the mcrypt library to encrpyt raw PHP code (without "<?php ?>", as it is executed via eval).
 It then executes the code after decrypting it. This can potentially aid in the obfuscation (and potentially unrecoverable)
 of your code, whether its shell, penetration testing or remote management and systems administration.
 
