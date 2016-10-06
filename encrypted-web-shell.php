@@ -8,7 +8,9 @@ It then executes the code after decrypting it. This can potentially aid in the o
 of your code, whether its shell, penetration testing or remote management and systems administration.
 ****************************/
 
-$key = '1234567891011120';
+// You can set this manually here in order to encrypt your file the first time. Dont forget to remove after
+//$key = '1234567891011120';
+
 define('IV_SIZE', mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC));
 
 function encrypt($key, $payload) {
