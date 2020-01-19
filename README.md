@@ -1,10 +1,10 @@
 # Encrypted Web Shell
 
-A quick and simple way to protect your PHP code with the mcrypt library using MCRYPT_RIJNDAEL_128, which is AES-complaint.
+A quick and simple way to protect your PHP code with the [OpenSSL](https://www.php.net/manual/en/book.openssl.php) library using AES-256-CBC.
 
 ## Description
 
-This code uses the mcrypt library to encrypt raw PHP code (without "<?php ?>", as it is executed via eval).
+This code uses the OpenSSL library to encrypt raw PHP code (without "<?php ?>", as it is executed via eval).
 It then executes the code after decrypting it. This can potentially aid in the obfuscation (and potentially unrecoverable)
 of your code, whether its shell, penetration testing or remote management and systems administration.
 
@@ -28,6 +28,6 @@ a strong key.
 
 ## Adjusting the encryption
 
-You can learn more about utilizing PHP's mcrypt library, as well as the different options you can utilize to encrypt your code here : http://php.net/manual/en/book.mcrypt.php
+You can learn more about utilizing PHP's OpenSSL library, as well as the different options you can utilize to encrypt your code here : https://www.php.net/manual/en/book.openssl.php 
 
 
